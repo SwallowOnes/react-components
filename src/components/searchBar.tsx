@@ -1,23 +1,34 @@
-import * as React from 'react';
+import React from 'react';
 
 interface ISearchBarProps {
   onSearch: (temp: string) => void;
 }
+
 interface ISearchBarState {
   temp: string;
+  options: Array<string>;
 }
+
 class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
   constructor(props: ISearchBarProps) {
     super(props);
-    this.state = { temp: '' };
+    this.state = {
+      temp: window.localStorage.getItem('storedText') || '',
+      options: [],
+    };
   }
 
   componentDidMount() {
-    const storedValue = window.localStorage.getItem('storedText')
+    this.fetchCategory();
+  }
 
-    if (storedValue) {
-      this.setState({ temp: storedValue })
+  private fetchCategory = async () => {
+    const response = await fetch('http://codefrondlers.store:5000/api/product/all-categories')
+    if (!response.ok) {
+      throw new Error('Error');
     }
+    const data = await response.json();
+    this.setState({options: data})
   }
 
   private onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,13 +43,13 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
       return;
     }
     localStorage.setItem('storedText', temp);
-    if (onSearch){
+    if (onSearch) {
       onSearch(temp);
     }
   };
 
   public render() {
-    const { temp } = this.state;
+    const { temp, options } = this.state;
     return (
       <div className="search-bar">
         <input
@@ -56,6 +67,11 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
         >
           Search
         </button>
+        <select>
+        {options.map(option => (
+          <option key={option}>{option}</option>
+        ))}
+      </select>
       </div>
     );
   }
