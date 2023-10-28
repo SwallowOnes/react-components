@@ -1,15 +1,19 @@
-import React from "react";
+import React from 'react';
 
-import SearchBar from "./components/searchBar";
+import SearchBar from './components/SearchBar';
 
 class App extends React.Component {
-  componentDidMount() {}
+  state = {}
+
+  private onSearch = () => {
+    console.log(this)
+  }
 
   render() {
     return (
       <div>
         Hello, world!
-        <SearchBar />
+        <SearchBar onSearch={this.onSearch}/>
       </div>
     );
   }

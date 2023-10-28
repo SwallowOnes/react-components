@@ -12,6 +12,14 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
     this.state = { temp: '' };
   }
 
+  componentDidMount() {
+    const storedValue = window.localStorage.getItem('storedText')
+
+    if (storedValue) {
+      this.setState({ temp: storedValue })
+    }
+  }
+
   private onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     this.setState(() => ({ temp: value }));
@@ -23,7 +31,10 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
     if (temp.trim() === '') {
       return;
     }
-    onSearch(temp);
+    localStorage.setItem('storedText', temp);
+    if (onSearch){
+      onSearch(temp);
+    }
   };
 
   public render() {
