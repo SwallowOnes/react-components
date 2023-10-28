@@ -1,11 +1,17 @@
-import React from 'react';
+import React from "react";
+
+import SearchBar from "./components/searchBar";
 
 class App extends React.Component {
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   render() {
-    return <div>Hello, world!</div>;
+    return (
+      <div>
+        Hello, world!
+        <SearchBar />
+      </div>
+    );
   }
 }
 export default App;
