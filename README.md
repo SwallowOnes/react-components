@@ -1,1 +1,1 @@
-# react-components
+# React Class Components
