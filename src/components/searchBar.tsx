@@ -7,22 +7,22 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
     super(props);
     this.state = {
       temp: window.localStorage.getItem('storedText') || '',
+      error: false,
     };
   }
 
-  componentDidMount() {
-    console.log('ss',this.props)
-  }
+  componentDidMount() {}
 
   private onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    this.setState(() => ({ temp: value }));
+    this.setState({ temp: value });
   };
 
   private onSearchButtonClick = () => {
     const { temp } = this.state;
-    const { fetchSearch } = this.props;
-    fetchSearch(temp)
+    const { handleSearch } = this.props;
+    console.log('temp 29 stochka)0)', temp);
+    handleSearch(temp);
     if (temp.trim() === '') {
       return;
     }
@@ -30,6 +30,10 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
   };
 
   public render() {
+    const { error } = this.state;
+    if (error) {
+      throw new Error('kek');
+    }
     const { temp } = this.state;
     return (
       <div className="search-bar">
@@ -50,7 +54,9 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
         <button
           type="button"
           className="search-button"
-          onClick={() => {throw new Error('Error alert')}}
+          onClick={() => {
+            this.setState({ error: true });
+          }}
         >
           ERROR
         </button>

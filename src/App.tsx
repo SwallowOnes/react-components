@@ -10,13 +10,24 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.fetchItems();
+    this.handleSearch(window.localStorage.getItem('storedText'));
+    //   this.fetchSearch();
+    // } else {
+    //   this.fetchItems();
+    // }
   }
 
-  private fetchSearch = async () => {
+  private handleSearch = (searchValue: string | null) => {
+    if (searchValue) {
+      return this.fetchSearch(searchValue);
+    }
+    return this.fetchItems();
+  };
+
+  private fetchSearch = async (searchValue: string) => {
     const response = await fetch(`
     http://codefrondlers.store:5000/api/product/search?${new URLSearchParams({
-      query: `${window.localStorage.getItem('storedText') || ''}`,
+      query: searchValue,
     }).toString()}`);
     if (!response.ok) {
       throw new Error('Error');
@@ -58,12 +69,12 @@ class App extends React.Component {
 
   render() {
     const { products } = this.state;
-    console.log("prod",products)
+    console.log('prod', products);
     return (
       <>
         <div>
           REACT CLASS COMPONENTS
-          <SearchBar fetchSearch={this.fetchSearch} />
+          <SearchBar handleSearch={this.handleSearch} />
         </div>
         <div>
           <CatalogPage items={products} />

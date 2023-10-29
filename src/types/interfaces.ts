@@ -19,11 +19,12 @@ interface IItems {
 }
 
 interface ISearchBarProps {
-  fetchSearch: (temp: string) => void;
+  handleSearch: (temp: string) => void;
 }
 
 interface ISearchBarState {
   temp: string;
+  error: boolean;
 }
 
 export type {
