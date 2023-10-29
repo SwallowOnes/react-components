@@ -10,7 +10,6 @@ class App extends React.Component {
     loading: false,
   };
 
-
   componentDidMount() {
     this.handleSearch(window.localStorage.getItem('storedText'));
   }
@@ -73,19 +72,16 @@ class App extends React.Component {
     const { products } = this.state;
     const { loading } = this.state;
     console.log('prod', products);
-    if(loading) {
+    if (loading) {
       return (
-      <div className="main_header">
-      <div className="header">
-        <h1 className="title">REACT CLASS COMPONENTS</h1>
-        <SearchBar handleSearch={this.handleSearch} />
-      </div>
-      <div className="main">
-        Loading...
-        </div>;
-    </div>
-      )
-
+        <div className="main_header">
+          <div className="header">
+            <h1 className="title">REACT CLASS COMPONENTS</h1>
+            <SearchBar handleSearch={this.handleSearch} />
+          </div>
+          <div className="main">Loading...</div>;
+        </div>
+      );
     }
     return (
       <div className="main_header">
