@@ -13,13 +13,13 @@ class App extends React.Component {
   render() {
     return (
       <>
-      <div>
-        Hello, world!
-        <SearchBar onSearch={this.onSearch} />
-      </div>
-      <div>
-        <CatalogPage />
-      </div>
+        <div>
+          REACT CLASS COMPONENTS
+          <SearchBar onSearch={this.onSearch} />
+        </div>
+        <div>
+          <CatalogPage />
+        </div>
       </>
     );
   }
