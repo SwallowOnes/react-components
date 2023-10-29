@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SearchBar from './components/SearchBar';
+import CatalogPage from './components/CatalogPage';
 
 class App extends React.Component {
   state = {};
@@ -11,10 +12,15 @@ class App extends React.Component {
 
   render() {
     return (
+      <>
       <div>
         Hello, world!
         <SearchBar onSearch={this.onSearch} />
       </div>
+      <div>
+        <CatalogPage />
+      </div>
+      </>
     );
   }
 }

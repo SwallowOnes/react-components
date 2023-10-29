@@ -23,13 +23,15 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
   }
 
   private fetchCategory = async () => {
-    const response = await fetch('http://codefrondlers.store:5000/api/product/all-categories')
+    const response = await fetch(
+      'http://codefrondlers.store:5000/api/product/all-categories',
+    );
     if (!response.ok) {
       throw new Error('Error');
     }
     const data = await response.json();
-    this.setState({options: data})
-  }
+    this.setState({ options: data });
+  };
 
   private onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -59,7 +61,11 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
           value={temp}
           onChange={this.onInputChange}
         />
-
+        <select>
+          {options.map((option) => (
+            <option key={option}>{option}</option>
+          ))}
+        </select>
         <button
           type="button"
           className="search-button"
@@ -67,11 +73,6 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
         >
           Search
         </button>
-        <select>
-        {options.map(option => (
-          <option key={option}>{option}</option>
-        ))}
-      </select>
       </div>
     );
   }
