@@ -7,11 +7,11 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
     super(props);
     this.state = {
       temp: window.localStorage.getItem('storedText') || '',
-      data: [],
     };
   }
 
   componentDidMount() {
+    console.log('ss',this.props)
   }
 
   private onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,30 +21,16 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
 
   private onSearchButtonClick = () => {
     const { temp } = this.state;
-    const { onSearch } = this.props;
+    const { fetchSearch } = this.props;
+    fetchSearch(temp)
     if (temp.trim() === '') {
       return;
     }
     localStorage.setItem('storedText', temp);
-    if (onSearch) {
-      onSearch(temp);
-    }
-    this.fetchSearch()
   };
 
-  private fetchSearch = async () => {
-    const response = await fetch(`
-    http://codefrondlers.store:5000/api/product/search?${new URLSearchParams({ query: `${window.localStorage.getItem('storedText') || ''}` }).toString()}`)
-    if (!response.ok) {
-      throw new Error('Error');
-    }
-    const dataResp = await response.json();
-    this.setState({ data: dataResp });
-  }
-  
   public render() {
-    const { temp, data } = this.state;
-    console.log(data)
+    const { temp } = this.state;
     return (
       <div className="search-bar">
         <input
@@ -53,15 +39,21 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
           placeholder="Search"
           value={temp}
           onChange={this.onInputChange}
-          />
+        />
         <button
           type="button"
           className="search-button"
           onClick={this.onSearchButtonClick}
-          >
+        >
           Search
         </button>
-
+        <button
+          type="button"
+          className="search-button"
+          onClick={() => {throw new Error('Error alert')}}
+        >
+          ERROR
+        </button>
       </div>
     );
   }

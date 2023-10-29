@@ -1,10 +1,7 @@
 import React from 'react';
 
 import IProduct from '../types/IProduct';
-
-interface IItems {
-  items: IProduct[];
-}
+import { IItems } from '../types/interfaces';
 
 class ProductCard extends React.Component<IItems> {
   public render() {

@@ -23,6 +23,7 @@ module.exports = {
       'object-curly-newline': 'off',
       'react/react-in-jsx-scope': 'off',
       'operator-linebreak': 'off',
+      "no-alert": "off",
       'react/state-in-constructor': 'off',
       "no-console": "off",
       'no-underscore-dangle': 'off',
