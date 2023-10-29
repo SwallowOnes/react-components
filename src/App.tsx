@@ -7,14 +7,12 @@ import { IItemsResponse } from './types/interfaces';
 class App extends React.Component {
   state = {
     products: [],
+    loading: false,
   };
+
 
   componentDidMount() {
     this.handleSearch(window.localStorage.getItem('storedText'));
-    //   this.fetchSearch();
-    // } else {
-    //   this.fetchItems();
-    // }
   }
 
   private handleSearch = (searchValue: string | null) => {
@@ -25,6 +23,7 @@ class App extends React.Component {
   };
 
   private fetchSearch = async (searchValue: string) => {
+    this.setState({ loading: true });
     const response = await fetch(`
     http://codefrondlers.store:5000/api/product/search?${new URLSearchParams({
       query: searchValue,
@@ -32,11 +31,13 @@ class App extends React.Component {
     if (!response.ok) {
       throw new Error('Error');
     }
+    this.setState({ loading: false });
     const data: IItemsResponse = await response.json();
     this.setState({ products: data });
   };
 
   public fetchItems = async () => {
+    this.setState({ loading: true });
     const fetchBody1238 = {
       pageNumber: 1,
       pageLimit: 10,
@@ -62,6 +63,7 @@ class App extends React.Component {
     if (!response.ok) {
       throw new Error('Error');
     }
+    this.setState({ loading: false });
     const data: IItemsResponse = await response.json();
     this.setState({ products: data.products });
     console.log(data.products);
@@ -69,18 +71,34 @@ class App extends React.Component {
 
   render() {
     const { products } = this.state;
+    const { loading } = this.state;
     console.log('prod', products);
+    if(loading) {
+      return (
+      <div className="main_header">
+      <div className="header">
+        <h1 className="title">REACT CLASS COMPONENTS</h1>
+        <SearchBar handleSearch={this.handleSearch} />
+      </div>
+      <div className="main">
+        Loading...
+        </div>;
+    </div>
+      )
+
+    }
     return (
-      <div className='main_header'>
-        <div className='header'>
-          <h1 className='title'>REACT CLASS COMPONENTS</h1>
+      <div className="main_header">
+        <div className="header">
+          <h1 className="title">REACT CLASS COMPONENTS</h1>
           <SearchBar handleSearch={this.handleSearch} />
         </div>
-        <div className='main'>
+        <div className="main">
           <CatalogPage items={products} />
         </div>
       </div>
     );
   }
 }
+
 export default App;
