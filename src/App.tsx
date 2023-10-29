@@ -71,15 +71,15 @@ class App extends React.Component {
     const { products } = this.state;
     console.log('prod', products);
     return (
-      <>
-        <div>
-          REACT CLASS COMPONENTS
+      <div className='main_header'>
+        <div className='header'>
+          <h1 className='title'>REACT CLASS COMPONENTS</h1>
           <SearchBar handleSearch={this.handleSearch} />
         </div>
-        <div>
+        <div className='main'>
           <CatalogPage items={products} />
         </div>
-      </>
+      </div>
     );
   }
 }
