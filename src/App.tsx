@@ -2,26 +2,99 @@ import React from 'react';
 
 import SearchBar from './components/SearchBar';
 import CatalogPage from './components/CatalogPage';
+import { IItemsResponse } from './types/interfaces';
 
 class App extends React.Component {
-  state = {};
+  state = {
+    products: [],
+    loading: false,
+  };
 
-  private onSearch = () => {
-    console.log(this);
+  componentDidMount() {
+    this.handleSearch(window.localStorage.getItem('storedText'));
+  }
+
+  private handleSearch = (searchValue: string | null) => {
+    if (searchValue) {
+      return this.fetchSearch(searchValue);
+    }
+    return this.fetchItems();
+  };
+
+  private fetchSearch = async (searchValue: string) => {
+    this.setState({ loading: true });
+    const response = await fetch(
+      `https://codefrondlers.store/api/product/search?${new URLSearchParams({
+        query: searchValue,
+      }).toString()}`,
+    );
+    if (!response.ok) {
+      throw new Error('Error');
+    }
+    this.setState({ loading: false });
+    const data: IItemsResponse = await response.json();
+    this.setState({ products: data });
+  };
+
+  public fetchItems = async () => {
+    this.setState({ loading: true });
+    const fetchBody1238 = {
+      pageNumber: 1,
+      pageLimit: 10,
+      sortColumn: 'gameTitle',
+      sortDirection: 'up',
+      minPrice: 0,
+      maxPrice: 100,
+    };
+
+    const response = await fetch(
+      'https://codefrondlers.store/api/product/catalog',
+      {
+        body: JSON.stringify(fetchBody1238),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          "sec-fetch-mode": "cors",
+          'Host': 'codefrondlers.store:5000',
+
+        },
+        method: 'POST',
+      },
+    );
+    if (!response.ok) {
+      throw new Error('Error');
+    }
+    this.setState({ loading: false });
+    const data: IItemsResponse = await response.json();
+    this.setState({ products: data.products });
   };
 
   render() {
+    const { products } = this.state;
+    const { loading } = this.state;
+    if (loading) {
+      return (
+        <div className="main_header">
+          <div className="header">
+            <h1 className="title">REACT CLASS COMPONENTS</h1>
+            <SearchBar handleSearch={this.handleSearch} />
+          </div>
+          <div className="main">Loading...</div>;
+        </div>
+      );
+    }
     return (
-      <>
-        <div>
-          REACT CLASS COMPONENTS
-          <SearchBar onSearch={this.onSearch} />
+      <div className="main_header">
+        <div className="header">
+          <h1 className="title">REACT CLASS COMPONENTS</h1>
+          <SearchBar handleSearch={this.handleSearch} />
         </div>
-        <div>
-          <CatalogPage />
+        <div className="main">
+          <CatalogPage items={products} />
         </div>
-      </>
+      </div>
     );
   }
 }
+
 export default App;

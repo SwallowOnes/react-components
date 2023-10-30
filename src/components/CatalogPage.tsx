@@ -1,55 +1,21 @@
 import React from 'react';
 
-import ProductCard from './ProductCard';
+import IProduct from '../types/IProduct';
+import { IItems } from '../types/interfaces';
+import './index.css';
 
-import { IItemsResponse } from '../types/interfaces';
-
-class CatalogPage extends React.Component {
-  state = {
-    items: [],
-  };
-
-  componentDidMount() {
-    this.fetchItems();
-  }
-
-  private fetchItems = async () => {
-    const fetchBody1238 = {
-      pageNumber: 1,
-      pageLimit: 10,
-      sortColumn: 'gameTitle',
-      sortDirection: 'up',
-      tags: [],
-      themes: [],
-      genres: [],
-      minPrice: 0,
-      maxPrice: 100,
-    };
-    const response = await fetch(
-      'http://codefrondlers.store:5000/api/product/catalog',
-      {
-        body: JSON.stringify(fetchBody1238),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      },
-    );
-    if (!response.ok) {
-      throw new Error('Error');
-    }
-    const data: IItemsResponse = await response.json();
-    this.setState({ items: data.products });
-  };
-
+class CatalogPage extends React.Component<IItems> {
   public render() {
-    const { items } = this.state;
-    return (
-      <div>
-        <ProductCard items={items} />
-      </div>
-    );
+    const { items } = this.props;
+    if (items) {
+      return items.map((product: IProduct) => (
+        <div className="card" key={product.gameTitle}>
+          <p className="game-title">{product.gameTitle}</p>
+          <img src={product.headerImg} alt={product.gameTitle} />
+        </div>
+      ));
+    }
+    return null;
   }
 }
 

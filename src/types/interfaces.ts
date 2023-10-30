@@ -1,4 +1,4 @@
-import IProduct from "./IProduct";
+import IProduct from './IProduct';
 
 interface IFilters {
   themes: string[];
@@ -19,12 +19,12 @@ interface IItems {
 }
 
 interface ISearchBarProps {
-  onSearch: (temp: string) => void;
+  handleSearch: (temp: string) => void;
 }
 
 interface ISearchBarState {
   temp: string;
-  data: Array<string>
+  error: boolean;
 }
 
 export type {
@@ -32,5 +32,5 @@ export type {
   IItemsResponse,
   IItems,
   ISearchBarProps,
-  ISearchBarState
-}
+  ISearchBarState,
+};
