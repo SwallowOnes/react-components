@@ -23,8 +23,7 @@ class App extends React.Component {
 
   private fetchSearch = async (searchValue: string) => {
     this.setState({ loading: true });
-    const response = await fetch(`
-    http://codefrondlers.store:5000/api/product/search?${new URLSearchParams({
+    const response = await fetch(`//codefrondlers.store:5000/api/product/search?${new URLSearchParams({
       query: searchValue,
     }).toString()}`);
     if (!response.ok) {
@@ -49,7 +48,7 @@ class App extends React.Component {
       maxPrice: 100,
     };
     const response = await fetch(
-      'http://codefrondlers.store:5000/api/product/catalog',
+      '//codefrondlers.store:5000/api/product/catalog',
       {
         body: JSON.stringify(fetchBody1238),
         headers: {
@@ -65,13 +64,11 @@ class App extends React.Component {
     this.setState({ loading: false });
     const data: IItemsResponse = await response.json();
     this.setState({ products: data.products });
-    console.log(data.products);
   };
 
   render() {
     const { products } = this.state;
     const { loading } = this.state;
-    console.log('prod', products);
     if (loading) {
       return (
         <div className="main_header">

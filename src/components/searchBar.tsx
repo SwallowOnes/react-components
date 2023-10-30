@@ -22,7 +22,6 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
   private onSearchButtonClick = () => {
     const { temp } = this.state;
     const { handleSearch } = this.props;
-    console.log('temp 29 stochka)0)', temp);
     handleSearch(temp);
     if (temp.trim() === '') {
       return;
