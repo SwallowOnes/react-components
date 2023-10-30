@@ -23,9 +23,11 @@ class App extends React.Component {
 
   private fetchSearch = async (searchValue: string) => {
     this.setState({ loading: true });
-    const response = await fetch(`//codefrondlers.store:5000/api/product/search?${new URLSearchParams({
-      query: searchValue,
-    }).toString()}`);
+    const response = await fetch(
+      `https://codefrondlers.store/api/product/search?${new URLSearchParams({
+        query: searchValue,
+      }).toString()}`,
+    );
     if (!response.ok) {
       throw new Error('Error');
     }
@@ -41,19 +43,20 @@ class App extends React.Component {
       pageLimit: 10,
       sortColumn: 'gameTitle',
       sortDirection: 'up',
-      tags: [],
-      themes: [],
-      genres: [],
       minPrice: 0,
       maxPrice: 100,
     };
+
     const response = await fetch(
-      '//codefrondlers.store:5000/api/product/catalog',
+      'https://codefrondlers.store/api/product/catalog',
       {
         body: JSON.stringify(fetchBody1238),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          "sec-fetch-mode": "cors",
+          'Host': 'codefrondlers.store:5000',
+
         },
         method: 'POST',
       },
