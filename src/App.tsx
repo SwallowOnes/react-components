@@ -1,8 +1,9 @@
 import React from 'react';
 
-import SearchBar from './components/SearchBar';
+import SearchBar from './components/searchBar';
 import CatalogPage from './components/CatalogPage';
 import { IItemsResponse } from './types/interfaces';
+
 
 class App extends React.Component {
   state = {
@@ -12,13 +13,14 @@ class App extends React.Component {
 
   componentDidMount() {
     this.handleSearch(window.localStorage.getItem('storedText'));
+    // this.setState({ products: fetchProducts() });
   }
 
   private handleSearch = (searchValue: string | null) => {
     if (searchValue) {
       return this.fetchSearch(searchValue);
     }
-    return this.fetchItems();
+    return (this.fetchItems());
   };
 
   private fetchSearch = async (searchValue: string) => {
@@ -90,7 +92,7 @@ class App extends React.Component {
           <SearchBar handleSearch={this.handleSearch} />
         </div>
         <div className="main">
-          <CatalogPage items={products} />
+          <CatalogPage products={products} />
         </div>
       </div>
     );

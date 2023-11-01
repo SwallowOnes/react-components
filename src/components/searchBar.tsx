@@ -65,3 +65,4 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
   }
 }
 export default SearchBar;
+

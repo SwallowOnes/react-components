@@ -1,14 +1,10 @@
-import React from 'react';
-
 import IProduct from '../types/IProduct';
-import { IItems } from '../types/interfaces';
 import './index.css';
 
-class CatalogPage extends React.Component<IItems> {
-  public render() {
-    const { items } = this.props;
-    if (items) {
-      return items.map((product: IProduct) => (
+function CatalogPage(props: { products: IProduct[] }) {
+  const { products } = props;
+    if (products) {
+      return products.map((product: IProduct) => (
         <div className="card" key={product.gameTitle}>
           <p className="game-title">{product.gameTitle}</p>
           <img src={product.headerImg} alt={product.gameTitle} />
@@ -16,7 +12,6 @@ class CatalogPage extends React.Component<IItems> {
       ));
     }
     return null;
-  }
 }
 
 export default CatalogPage;
