@@ -1,8 +1,5 @@
-
 function LayoutPage() {
-  return (
-    <div />
-  );
+  return <div />;
 }
 
 export default LayoutPage;

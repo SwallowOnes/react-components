@@ -18,7 +18,6 @@ async function fetchProducts() {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         'sec-fetch-mode': 'cors',
-        Host: 'codefrondlers.store:5000',
       },
       method: 'POST',
     },
@@ -27,7 +26,7 @@ async function fetchProducts() {
     throw new Error('Error');
   }
   const data: IItemsResponse = await response.json();
-  return data.products;
+  return data;
 }
 
 async function fetchSearch(searchValue: string) {
