@@ -10,16 +10,24 @@ const cardsPerPage = 10;
 function MainPage() {
   const [products, setProducts] = useState<IProduct[]>();
   const [catalogCurrentPage, setCatalogCurrentPage] = useState(1);
-  const [totalProducts, setTotalProducts ] = useState(Number);
+  const [totalProducts, setTotalProducts] = useState(Number);
 
   useEffect(() => {
     const fetchCatalog = async () => {
-      const catalog = await fetchProducts();
+      const fethBody = {
+        pageNumber: catalogCurrentPage,
+        pageLimit: cardsPerPage,
+        sortColumn: 'gameTitle',
+        sortDirection: 'up',
+        minPrice: 0,
+        maxPrice: 100,
+      };
+      const catalog = await fetchProducts(fethBody);
       setProducts(catalog.products);
-      setTotalProducts(catalog.totalProducts)
+      setTotalProducts(catalog.totalProducts);
     };
     fetchCatalog();
-  }, []);
+  }, [catalogCurrentPage]);
 
   useEffect(() => {
     if (totalProducts / 10 < catalogCurrentPage - 1) {
@@ -27,16 +35,27 @@ function MainPage() {
     }
   }, [catalogCurrentPage, totalProducts]);
 
-
   const handleSearch = async (searchValue: string | null): Promise<void> => {
     if (searchValue) {
       const fetchData = await fetchSearch(searchValue);
       setProducts(fetchData);
     } else {
-      const fetchData = await fetchProducts();
+      const fethBody = {
+        pageNumber: catalogCurrentPage,
+        pageLimit: cardsPerPage,
+        sortColumn: 'gameTitle',
+        sortDirection: 'up',
+        minPrice: 0,
+        maxPrice: 100,
+      };
+      const fetchData = await fetchProducts(fethBody);
       setProducts(fetchData.products);
     }
   };
+
+  const paginate = async (pageNumber: number) => {
+    await setCatalogCurrentPage(pageNumber)
+  }
 
   if (products) {
     return (
@@ -50,7 +69,9 @@ function MainPage() {
           <Pagination
             catalogCurrentPage={catalogCurrentPage}
             totalProducts={totalProducts}
-            cardsPerPage={cardsPerPage} />
+            cardsPerPage={cardsPerPage}
+            paginate={paginate}
+          />
         </div>
       </div>
     );

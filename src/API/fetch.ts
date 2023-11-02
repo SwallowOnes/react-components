@@ -1,14 +1,6 @@
-import { IItemsResponse, ISearchResponse } from '../types/interfaces';
+import { IFetchBody, IItemsResponse, ISearchResponse } from '../types/interfaces';
 
-async function fetchProducts() {
-  const fetchBody = {
-    pageNumber: 1,
-    pageLimit: 10,
-    sortColumn: 'gameTitle',
-    sortDirection: 'up',
-    minPrice: 0,
-    maxPrice: 100,
-  };
+async function fetchProducts(fetchBody: IFetchBody) {
 
   const response = await fetch(
     'https://codefrondlers.store/api/product/catalog',
