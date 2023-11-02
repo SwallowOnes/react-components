@@ -1,4 +1,4 @@
-import { IItemsResponse } from "../types/interfaces";
+import { IItemsResponse, ISearchResponse } from '../types/interfaces';
 
 async function fetchProducts() {
   const fetchBody = {
@@ -17,9 +17,8 @@ async function fetchProducts() {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        "sec-fetch-mode": "cors",
-        'Host': 'codefrondlers.store:5000',
-
+        'sec-fetch-mode': 'cors',
+        Host: 'codefrondlers.store:5000',
       },
       method: 'POST',
     },
@@ -28,23 +27,21 @@ async function fetchProducts() {
     throw new Error('Error');
   }
   const data: IItemsResponse = await response.json();
-  console.log(data.products)
   return data.products;
-};
+}
 
 async function fetchSearch(searchValue: string) {
-  const url = `https://codefrondlers.store/api/product/search?${new URLSearchParams({
-    query: searchValue,
-  }).toString()}`
-  const response = await fetch(
-    url,
-  );
+  const url = `https://codefrondlers.store/api/product/search?${new URLSearchParams(
+    {
+      query: searchValue,
+    },
+  ).toString()}`;
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Error');
   }
-  const data: IItemsResponse = await response.json();
-  console.log(data)
-  return data.products;
-};
+  const data: ISearchResponse = await response.json();
+  return data;
+}
 
-export { fetchProducts, fetchSearch};
+export { fetchProducts, fetchSearch };

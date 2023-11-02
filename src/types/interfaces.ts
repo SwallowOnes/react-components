@@ -14,6 +14,8 @@ interface IItemsResponse {
   totalProducts: number;
 }
 
+type ISearchResponse = IProduct[];
+
 interface IItems {
   items: IProduct[];
 }
@@ -30,6 +32,7 @@ interface ISearchBarState {
 export type {
   IFilters,
   IItemsResponse,
+  ISearchResponse,
   IItems,
   ISearchBarProps,
   ISearchBarState,
