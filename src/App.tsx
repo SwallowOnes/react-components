@@ -5,7 +5,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/main" element={<MainPage />} />
+        <Route path="/main" element={<MainPage />}>
+          <Route path=":id" element={<MainPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

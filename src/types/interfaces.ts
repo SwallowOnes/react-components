@@ -1,13 +1,13 @@
 import IProduct from './IProduct';
 
 interface IFetchBody {
-  pageNumber: number,
-  pageLimit: number,
-  sortColumn: string,
-  sortDirection: string,
-  minPrice: number,
-  maxPrice: number,
-};
+  pageNumber: number;
+  pageLimit: number;
+  sortColumn: string;
+  sortDirection: string;
+  minPrice: number;
+  maxPrice: number;
+}
 
 interface IFilters {
   themes: string[];

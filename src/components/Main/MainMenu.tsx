@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CatalogPage from './components/CatalogPage';
 import SearchBar from './components/SearchBar';
 import { fetchProducts, fetchSearch } from '../../API/fetch';
@@ -11,6 +12,8 @@ function MainPage() {
   const [products, setProducts] = useState<IProduct[]>();
   const [catalogCurrentPage, setCatalogCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(Number);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchCatalog = async () => {
@@ -27,7 +30,8 @@ function MainPage() {
       setTotalProducts(catalog.totalProducts);
     };
     fetchCatalog();
-  }, [catalogCurrentPage]);
+    navigate(`$page${catalogCurrentPage}`);
+  }, [catalogCurrentPage, navigate]);
 
   useEffect(() => {
     if (totalProducts / 10 < catalogCurrentPage - 1) {
@@ -53,9 +57,9 @@ function MainPage() {
     }
   };
 
-  const paginate = async (pageNumber: number) => {
-    await setCatalogCurrentPage(pageNumber)
-  }
+  const paginate =  (pageNumber: number) => {
+    setCatalogCurrentPage(pageNumber);
+  };
 
   if (products) {
     return (
@@ -67,7 +71,6 @@ function MainPage() {
         <div className="main">
           <CatalogPage products={products} />
           <Pagination
-            catalogCurrentPage={catalogCurrentPage}
             totalProducts={totalProducts}
             cardsPerPage={cardsPerPage}
             paginate={paginate}

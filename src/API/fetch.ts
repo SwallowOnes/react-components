@@ -1,7 +1,10 @@
-import { IFetchBody, IItemsResponse, ISearchResponse } from '../types/interfaces';
+import {
+  IFetchBody,
+  IItemsResponse,
+  ISearchResponse,
+} from '../types/interfaces';
 
 async function fetchProducts(fetchBody: IFetchBody) {
-
   const response = await fetch(
     'https://codefrondlers.store/api/product/catalog',
     {
