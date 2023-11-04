@@ -55,15 +55,27 @@ li {
   float: left;
 }
 
-li a {
-  display: block;
+.page-active {
+  display: flex;
   color: white;
   text-align: center;
   padding: 16px;
+  border-radius: 8px;
+  background-color: red;
   text-decoration: none;
 }
 
-li a:hover {
+.page-link {
+  display: flex;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #333333;
+  text-decoration: none;
+}
+
+.page-link:hover:enabled {
   background-color: #111111;
 }
 

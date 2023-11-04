@@ -6,20 +6,20 @@ import { fetchProducts, fetchSearch } from '../../API/fetch';
 import IProduct from '../../types/IProduct';
 import Pagination from './components/Pagination';
 
-const cardsPerPage = 10;
+const cardsPerPageDefault = 10;
 
 function MainPage() {
   const [products, setProducts] = useState<IProduct[]>();
   const [catalogCurrentPage, setCatalogCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(Number);
+  const [cardsOnPage, setCardsOnPage] = useState(cardsPerPageDefault)
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchCatalog = async () => {
       const fethBody = {
         pageNumber: catalogCurrentPage,
-        pageLimit: cardsPerPage,
+        pageLimit: cardsOnPage,
         sortColumn: 'gameTitle',
         sortDirection: 'up',
         minPrice: 0,
@@ -31,22 +31,23 @@ function MainPage() {
     };
     fetchCatalog();
     navigate(`$page${catalogCurrentPage}`);
-  }, [catalogCurrentPage, navigate]);
+  }, [catalogCurrentPage, navigate, cardsOnPage]);
 
   useEffect(() => {
-    if (totalProducts / 10 < catalogCurrentPage - 1) {
+    if (totalProducts / cardsOnPage < catalogCurrentPage - 1) {
       setCatalogCurrentPage(1);
     }
-  }, [catalogCurrentPage, totalProducts]);
+  }, [catalogCurrentPage, totalProducts, cardsOnPage]);
 
   const handleSearch = async (searchValue: string | null): Promise<void> => {
     if (searchValue) {
       const fetchData = await fetchSearch(searchValue);
       setProducts(fetchData);
-    } else {
+    }
+     else {
       const fethBody = {
         pageNumber: catalogCurrentPage,
-        pageLimit: cardsPerPage,
+        pageLimit: cardsOnPage,
         sortColumn: 'gameTitle',
         sortDirection: 'up',
         minPrice: 0,
@@ -57,9 +58,22 @@ function MainPage() {
     }
   };
 
-  const paginate =  (pageNumber: number) => {
+  const paginate = (pageNumber: number) => {
     setCatalogCurrentPage(pageNumber);
   };
+
+  const selectCardsOnPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const number = parseInt(event.target.value, 10);
+    setCardsOnPage(number);
+  }
+
+  const handleNext = () => {
+		setCatalogCurrentPage(catalogCurrentPage+ 1);
+	}
+
+  const handlePrev = () => {
+		setCatalogCurrentPage(catalogCurrentPage - 1);
+	}
 
   if (products) {
     return (
@@ -71,9 +85,13 @@ function MainPage() {
         <div className="main">
           <CatalogPage products={products} />
           <Pagination
+            currentPage={catalogCurrentPage}
             totalProducts={totalProducts}
-            cardsPerPage={cardsPerPage}
+            cardsPerPage={cardsOnPage}
             paginate={paginate}
+            select={selectCardsOnPage}
+            prev={handlePrev}
+            next={handleNext}
           />
         </div>
       </div>
