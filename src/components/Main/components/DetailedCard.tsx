@@ -19,11 +19,10 @@ function DetailedCard(props: {card: string | null}) {
       setTitleForRequest(card || '');
     }
   }, [card, titleForRequest]);
-
+  
   if (!card) {
     return null;
   }
-  
   if (productData) {
     return (
       <div className="card" key={productData.gameTitle}>

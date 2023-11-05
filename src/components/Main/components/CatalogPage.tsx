@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import IProduct from '../../../types/IProduct';
 import '../../index.css';
 
-function CatalogPage(props: { products: IProduct[]; page: string | null}) {
+function CatalogPage(props: { products: IProduct[]; page: string | null }) {
   const { products, page } = props;
   const [, setSearchParams] = useSearchParams();
 

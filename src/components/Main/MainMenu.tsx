@@ -19,16 +19,15 @@ function MainPage() {
   const params = useLocation();
 
   const [searchParams] = useSearchParams();
-  const currentPage = searchParams.get('page')
-  const currentCard= searchParams.get('card')
+  const currentPage = searchParams.get('page');
+  const currentCard = searchParams.get('card');
 
-
-  useEffect(()=>{
+  useEffect(() => {
     if (!currentPage) {
-      navigate(`/main/?page=1`)
+      navigate(`?page=1`);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const fetchCatalog = async () => {
@@ -73,22 +72,22 @@ function MainPage() {
 
   const paginate = (pageNumber: number) => {
     setCatalogCurrentPage(pageNumber);
-    navigate(`/main/?page=${pageNumber}`)
+    navigate(`?page=${pageNumber}`);
   };
 
   const selectCardsOnPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const number = parseInt(event.target.value, 10);
     setCardsOnPage(number);
     setCatalogCurrentPage(1);
-    navigate(`/main/?page=${currentPage}`)
+    navigate(`?page=${currentPage}`);
   };
 
   const handleNext = () => {
-    setCatalogCurrentPage(+(currentPage || 1) + 1);
+    navigate(`?page=${(+(currentPage || 1) + 1)}`);
   };
 
   const handlePrev = () => {
-    setCatalogCurrentPage(+(currentPage || 1) - 1);
+    navigate(`?page=${(+(currentPage || 1) - 1)}`);
   };
 
   if (products) {
@@ -97,15 +96,15 @@ function MainPage() {
         <div className="header">
           <h1 className="title">REACT COMPONENTS</h1>
           <SearchBar handleSearch={handleSearch} />
-          <div className='select_items'>
-          <h1 className="title">SELECT ITEMS PRE PAGE</h1>
-          <select value={cardsOnPage} onChange={selectCardsOnPage}>
-            {options.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <div className="select_items">
+            <h1 className="title">SELECT ITEMS PRE PAGE</h1>
+            <select value={cardsOnPage} onChange={selectCardsOnPage}>
+              {options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="main">

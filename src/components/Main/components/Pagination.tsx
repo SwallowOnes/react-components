@@ -8,14 +8,8 @@ function Pagination(props: {
   prev: () => void;
   next: () => void;
 }) {
-  const {
-    currentPage,
-    totalProducts,
-    cardsPerPage,
-    paginate,
-    prev,
-    next,
-  } = props;
+  const { currentPage, totalProducts, cardsPerPage, paginate, prev, next } =
+    props;
   const pageNumber = [];
 
   for (let i = 1; i <= totalProducts / cardsPerPage + 1; i += 1) {
@@ -35,7 +29,7 @@ function Pagination(props: {
         <button
           type="button"
           onClick={() => {
-            paginate(page)
+            paginate(page);
           }}
           className={currentPage === page ? 'page-active' : 'page-link'}
           key={page}
