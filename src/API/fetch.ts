@@ -3,6 +3,7 @@ import {
   IItemsResponse,
   ISearchResponse,
 } from '../types/interfaces';
+import IProduct from '../types/IProduct';
 
 async function fetchProducts(fetchBody: IFetchBody) {
   const response = await fetch(
@@ -38,4 +39,14 @@ async function fetchSearch(searchValue: string) {
   return data;
 }
 
-export { fetchProducts, fetchSearch };
+async function fetchProduct(gameTitle: string) {
+  const url = `https://codefrondlers.store/api/product/${gameTitle}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error('Error');
+  }
+  const data: IProduct = await response.json();
+  return data;
+}
+
+export { fetchProducts, fetchSearch, fetchProduct };

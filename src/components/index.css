@@ -83,3 +83,7 @@ li {
   display: flex;
   flex-direction: row;
 }
+
+.card-text {
+  color: aliceblue;
+}

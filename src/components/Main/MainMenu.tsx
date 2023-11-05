@@ -5,6 +5,7 @@ import SearchBar from './components/SearchBar';
 import { fetchProducts, fetchSearch } from '../../API/fetch';
 import IProduct from '../../types/IProduct';
 import Pagination from './components/Pagination';
+import DetailedMain from './components/DetailedMain';
 
 const cardsPerPageDefault = 10;
 
@@ -12,7 +13,7 @@ function MainPage() {
   const [products, setProducts] = useState<IProduct[]>();
   const [catalogCurrentPage, setCatalogCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(Number);
-  const [cardsOnPage, setCardsOnPage] = useState(cardsPerPageDefault)
+  const [cardsOnPage, setCardsOnPage] = useState(cardsPerPageDefault);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ function MainPage() {
       setTotalProducts(catalog.totalProducts);
     };
     fetchCatalog();
-    navigate(`$page${catalogCurrentPage}`);
+    navigate(`page$${catalogCurrentPage}`);
   }, [catalogCurrentPage, navigate, cardsOnPage]);
 
   useEffect(() => {
@@ -43,8 +44,7 @@ function MainPage() {
     if (searchValue) {
       const fetchData = await fetchSearch(searchValue);
       setProducts(fetchData);
-    }
-     else {
+    } else {
       const fethBody = {
         pageNumber: catalogCurrentPage,
         pageLimit: cardsOnPage,
@@ -65,15 +65,16 @@ function MainPage() {
   const selectCardsOnPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const number = parseInt(event.target.value, 10);
     setCardsOnPage(number);
-  }
+    setCatalogCurrentPage(1)
+  };
 
   const handleNext = () => {
-		setCatalogCurrentPage(catalogCurrentPage+ 1);
-	}
+    setCatalogCurrentPage(catalogCurrentPage + 1);
+  };
 
   const handlePrev = () => {
-		setCatalogCurrentPage(catalogCurrentPage - 1);
-	}
+    setCatalogCurrentPage(catalogCurrentPage - 1);
+  };
 
   if (products) {
     return (
@@ -83,6 +84,7 @@ function MainPage() {
           <SearchBar handleSearch={handleSearch} />
         </div>
         <div className="main">
+          <DetailedMain />
           <CatalogPage products={products} />
           <Pagination
             currentPage={catalogCurrentPage}
