@@ -4,8 +4,11 @@
   
 }
 
-.main_header {
-  color:#202124;
+.container {
+  display: flex;
+  width: 100%;
+  color: #202124;
+  flex-direction: column;
 }
 
 .header {
@@ -18,12 +21,43 @@
   padding-bottom: 20px;
 }
 
+.select_items {
+  display: flex;
+  flex-direction: row;
+  column-gap: 30px;
+  justify-content: space-between;
+}
+
 .main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  background-color: #303134;
+}
+
+.catalog {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
   background-color: #303134;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background-color: #303134;
+}
+
+.pagination_cont {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  background-color: #303134;
+  justify-content: center;
 }
 
 .card {

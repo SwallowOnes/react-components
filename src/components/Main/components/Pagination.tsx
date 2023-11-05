@@ -5,7 +5,6 @@ function Pagination(props: {
   totalProducts: number;
   cardsPerPage: number;
   paginate: (page: number) => void;
-  select: (value: React.ChangeEvent<HTMLSelectElement>) => void;
   prev: () => void;
   next: () => void;
 }) {
@@ -14,7 +13,6 @@ function Pagination(props: {
     totalProducts,
     cardsPerPage,
     paginate,
-    select,
     prev,
     next,
   } = props;
@@ -23,8 +21,6 @@ function Pagination(props: {
   for (let i = 1; i <= totalProducts / cardsPerPage + 1; i += 1) {
     pageNumber.push(i);
   }
-
-  const options: number[] = [3, 5, 10];
   return (
     <div className="pagination">
       <button
@@ -38,7 +34,9 @@ function Pagination(props: {
       {pageNumber.map((page) => (
         <button
           type="button"
-          onClick={() => paginate(page)}
+          onClick={() => {
+            paginate(page)
+          }}
           className={currentPage === page ? 'page-active' : 'page-link'}
           key={page}
         >
@@ -54,14 +52,6 @@ function Pagination(props: {
       >
         NEXT
       </button>
-      <div>Items per Page</div>
-      <select value={cardsPerPage} onChange={select}>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
     </div>
   );
 }
