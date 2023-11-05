@@ -71,6 +71,10 @@
   border-radius: 10px;
 }
 
+.CardClicker {
+  cursor: pointer;
+}
+
 .game-title {
   color: aliceblue;
   font-size: 1rem;
@@ -97,6 +101,7 @@ li {
   border-radius: 8px;
   background-color: red;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .page-link {
@@ -107,6 +112,7 @@ li {
   border-radius: 8px;
   background-color: #333333;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .page-link:hover:enabled {

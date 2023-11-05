@@ -83,11 +83,11 @@ function MainPage() {
   };
 
   const handleNext = () => {
-    navigate(`?page=${(+(currentPage || 1) + 1)}`);
+    navigate(`?page=${+(currentPage || 1) + 1}`);
   };
 
   const handlePrev = () => {
-    navigate(`?page=${(+(currentPage || 1) - 1)}`);
+    navigate(`?page=${+(currentPage || 1) - 1}`);
   };
 
   if (products) {

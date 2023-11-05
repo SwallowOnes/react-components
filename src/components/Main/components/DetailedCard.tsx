@@ -3,7 +3,7 @@ import { fetchProduct } from '../../../API/fetch';
 import IProduct from '../../../types/IProduct';
 import '../../index.css';
 
-function DetailedCard(props: {card: string | null}) {
+function DetailedCard(props: { card: string | null }) {
   const { card } = props;
   const [productData, setProductData] = useState<IProduct>();
 
@@ -19,7 +19,7 @@ function DetailedCard(props: {card: string | null}) {
       setTitleForRequest(card || '');
     }
   }, [card, titleForRequest]);
-  
+
   if (!card) {
     return null;
   }
