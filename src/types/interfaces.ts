@@ -1,5 +1,14 @@
 import IProduct from './IProduct';
 
+interface IFetchBody {
+  pageNumber: number;
+  pageLimit: number;
+  sortColumn: string;
+  sortDirection: string;
+  minPrice: number;
+  maxPrice: number;
+}
+
 interface IFilters {
   themes: string[];
   genres: string[];
@@ -13,6 +22,8 @@ interface IItemsResponse {
   filters: IFilters[];
   totalProducts: number;
 }
+
+type ISearchResponse = IProduct[];
 
 interface IItems {
   items: IProduct[];
@@ -28,8 +39,10 @@ interface ISearchBarState {
 }
 
 export type {
+  IFetchBody,
   IFilters,
   IItemsResponse,
+  ISearchResponse,
   IItems,
   ISearchBarProps,
   ISearchBarState,
