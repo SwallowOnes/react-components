@@ -10,7 +10,7 @@ function DetailedCard(props: { card: string | null }) {
   const [titleForRequest, setTitleForRequest] = useState('');
 
   useEffect(() => {
-    if (titleForRequest !== card) {
+    if (titleForRequest === card) {
       const getProduct = async () => {
         const product = await fetchProduct(card || '');
         setProductData(product);

@@ -2,13 +2,21 @@ import { useSearchParams } from 'react-router-dom';
 import IProduct from '../../../types/IProduct';
 import '../../index.css';
 
-function CatalogPage(props: { products: IProduct[]; page: string | null }) {
-  const { products, page } = props;
+function CatalogPage(props: { products: IProduct[]; page: string | null; search: string | null }) {
+  const { products, page, search } = props;
   const [, setSearchParams] = useSearchParams();
 
   if (!page) {
     return '';
   }
+
+  const checkSearch = (gameTitle: string) => {
+    if (search) {
+      setSearchParams({ page, search, card: gameTitle })
+    } else {
+      setSearchParams({ page, card: gameTitle })
+    }
+}
 
   if (products) {
     return (
@@ -17,7 +25,7 @@ function CatalogPage(props: { products: IProduct[]; page: string | null }) {
           <div
             role="button"
             className="CardClicker"
-            onClick={() => setSearchParams({ page, card: product.gameTitle })}
+            onClick={() => checkSearch(product.gameTitle)}
             aria-hidden="true"
             key={product.gameTitle}
           >

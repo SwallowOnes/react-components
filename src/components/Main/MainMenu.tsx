@@ -17,10 +17,11 @@ function MainPage() {
   const navigate = useNavigate();
   const params = useLocation();
 
-  const [searchParams, ] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const currentPage = searchParams.get('page');
   const currentCard = searchParams.get('card');
-
+  const currentSearch = searchParams.get('search');
 
   useEffect(() => {
     if (!currentPage) {
@@ -29,42 +30,31 @@ function MainPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(()=>{})
-
   useEffect(() => {
-    const fetchCatalog = async () => {
-      const fethBody = {
-        pageNumber: +(currentPage || 1),
-        pageLimit: cardsOnPage,
-        sortColumn: 'gameTitle',
-        sortDirection: 'up',
-        minPrice: 0,
-        maxPrice: 100,
+    if ( !currentSearch) {
+      const fetchCatalog = async () => {
+        const fethBody = {
+          pageNumber: +(currentPage || 1),
+          pageLimit: cardsOnPage,
+          sortColumn: 'gameTitle',
+          sortDirection: 'up',
+          minPrice: 0,
+          maxPrice: 100,
+        };
+        const catalog = await fetchProducts(fethBody);
+        setProducts(catalog.products);
+        setTotalProducts(catalog.totalProducts);
       };
-      const catalog = await fetchProducts(fethBody);
-      setProducts(catalog.products);
-      setTotalProducts(catalog.totalProducts);
-    };
-    fetchCatalog();
-  }, [currentPage, cardsOnPage, params]);
-
-  const handleSearch = async (searchText: string | null): Promise<void> => {
-    if (searchText) {
-      const fetchData = await fetchSearch(searchText);
-      setProducts(fetchData);
+      fetchCatalog();
     } else {
-      const fethBody = {
-        pageNumber: +(currentPage || 1),
-        pageLimit: cardsOnPage,
-        sortColumn: 'gameTitle',
-        sortDirection: 'up',
-        minPrice: 0,
-        maxPrice: 100,
+      const fetchSearchProd = async () => {
+        const fetchData = await fetchSearch(currentSearch || '');
+        setProducts(fetchData);
+        setTotalProducts(1)
       };
-      const fetchData = await fetchProducts(fethBody);
-      setProducts(fetchData.products);;
+      fetchSearchProd();
     }
-  };
+  }, [currentPage, cardsOnPage, params, currentSearch, setSearchParams, searchParams]);
 
   const paginate = (pageNumber: number) => {
     navigate(`?page=${pageNumber}`);
@@ -89,7 +79,7 @@ function MainPage() {
       <div className="container">
         <div className="header">
           <h1 className="title">REACT COMPONENTS</h1>
-          <SearchBar handleSearch={handleSearch} page={currentPage} />
+          <SearchBar page={currentPage} />
           <div className="select_items">
             <h1 className="title">SELECT ITEMS PRE PAGE</h1>
             <select value={cardsOnPage} onChange={selectCardsOnPage}>
@@ -102,7 +92,7 @@ function MainPage() {
           </div>
         </div>
         <div className="main">
-          <CatalogPage products={products} page={currentPage} />
+          <CatalogPage products={products} page={currentPage} search={currentSearch} />
           <DetailedCard card={currentCard} />
         </div>
         <div className="pagination_cont">
