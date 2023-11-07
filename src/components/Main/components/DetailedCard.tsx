@@ -16,8 +16,8 @@ function DetailedCard(props: { card: string | null }) {
         setProductData(product);
       };
       getProduct();
-      setTitleForRequest(card || '');
     }
+    setTitleForRequest(card || '');
   }, [card, titleForRequest]);
 
   if (!card) {

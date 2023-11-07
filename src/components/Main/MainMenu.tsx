@@ -12,15 +12,15 @@ const options: number[] = [5, 10, 20];
 
 function MainPage() {
   const [products, setProducts] = useState<IProduct[]>();
-  const [catalogCurrentPage, setCatalogCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(Number);
   const [cardsOnPage, setCardsOnPage] = useState(cardsPerPageDefault);
   const navigate = useNavigate();
   const params = useLocation();
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, ] = useSearchParams();
   const currentPage = searchParams.get('page');
   const currentCard = searchParams.get('card');
+
 
   useEffect(() => {
     if (!currentPage) {
@@ -28,6 +28,8 @@ function MainPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(()=>{})
 
   useEffect(() => {
     const fetchCatalog = async () => {
@@ -44,17 +46,11 @@ function MainPage() {
       setTotalProducts(catalog.totalProducts);
     };
     fetchCatalog();
-  }, [currentPage, navigate, cardsOnPage, params]);
+  }, [currentPage, cardsOnPage, params]);
 
-  useEffect(() => {
-    if (totalProducts / cardsOnPage < catalogCurrentPage - 1) {
-      setCatalogCurrentPage(1);
-    }
-  }, [catalogCurrentPage, totalProducts, cardsOnPage]);
-
-  const handleSearch = async (searchValue: string | null): Promise<void> => {
-    if (searchValue) {
-      const fetchData = await fetchSearch(searchValue);
+  const handleSearch = async (searchText: string | null): Promise<void> => {
+    if (searchText) {
+      const fetchData = await fetchSearch(searchText);
       setProducts(fetchData);
     } else {
       const fethBody = {
@@ -66,20 +62,18 @@ function MainPage() {
         maxPrice: 100,
       };
       const fetchData = await fetchProducts(fethBody);
-      setProducts(fetchData.products);
+      setProducts(fetchData.products);;
     }
   };
 
   const paginate = (pageNumber: number) => {
-    setCatalogCurrentPage(pageNumber);
     navigate(`?page=${pageNumber}`);
   };
 
   const selectCardsOnPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const number = parseInt(event.target.value, 10);
     setCardsOnPage(number);
-    setCatalogCurrentPage(1);
-    navigate(`?page=${currentPage}`);
+    navigate(`?page=1`);
   };
 
   const handleNext = () => {
@@ -95,7 +89,7 @@ function MainPage() {
       <div className="container">
         <div className="header">
           <h1 className="title">REACT COMPONENTS</h1>
-          <SearchBar handleSearch={handleSearch} />
+          <SearchBar handleSearch={handleSearch} page={currentPage} />
           <div className="select_items">
             <h1 className="title">SELECT ITEMS PRE PAGE</h1>
             <select value={cardsOnPage} onChange={selectCardsOnPage}>

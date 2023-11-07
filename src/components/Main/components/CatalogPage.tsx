@@ -19,6 +19,7 @@ function CatalogPage(props: { products: IProduct[]; page: string | null }) {
             className="CardClicker"
             onClick={() => setSearchParams({ page, card: product.gameTitle })}
             aria-hidden="true"
+            key={product.gameTitle}
           >
             <div className="card" key={product.gameTitle}>
               <p className="game-title">{product.gameTitle}</p>

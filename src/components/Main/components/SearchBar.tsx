@@ -1,19 +1,30 @@
 import { useState } from 'react';
 import '../../index.css';
+import { useSearchParams } from 'react-router-dom';
 
 function SearchBar(props: {
   handleSearch: (searchValue: string | null) => void;
+  page: string | null,
 }) {
-  const { handleSearch } = props;
+  const { handleSearch, page } = props;
   const [searchText, setSearchText] = useState('');
   const [errorHandler, setErrorHandler] = useState(false);
+  const [, setSearchParams] = useSearchParams();
 
   const saveData = () => {
     window.localStorage.setItem('temp', JSON.stringify(searchText));
   };
 
+
+  if (!page) {
+    return '';
+  }
+
   const onSearchButtonClick = () => {
     saveData();
+    if(!searchText){
+      setSearchParams({ page: "1" })
+    }
     handleSearch(searchText);
   };
 
@@ -27,12 +38,16 @@ function SearchBar(props: {
         type="text"
         placeholder="Search"
         value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+        onChange={(e) =>
+           setSearchText(e.target.value)
+          }
       />
       <button
         type="button"
         className="search-button"
-        onClick={onSearchButtonClick}
+        onClick={
+          onSearchButtonClick
+        }
       >
         Search
       </button>
