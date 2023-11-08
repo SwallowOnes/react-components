@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import CatalogPage from './components/CatalogPage';
 import SearchBar from './components/SearchBar';
@@ -6,6 +6,8 @@ import { fetchProducts, fetchSearch } from '../../API/fetch';
 import IProduct from '../../types/IProduct';
 import Pagination from './components/Pagination';
 import DetailedCard from './components/DetailedCard';
+
+import DataContext from '../../utils/DataContext';
 
 const cardsPerPageDefault = 10;
 const options: number[] = [5, 10, 20];
@@ -31,7 +33,7 @@ function MainPage() {
   }, []);
 
   useEffect(() => {
-    if ( !currentSearch) {
+    if (!currentSearch) {
       const fetchCatalog = async () => {
         const fethBody = {
           pageNumber: +(currentPage || 1),
@@ -50,11 +52,18 @@ function MainPage() {
       const fetchSearchProd = async () => {
         const fetchData = await fetchSearch(currentSearch || '');
         setProducts(fetchData);
-        setTotalProducts(1)
+        setTotalProducts(1);
       };
       fetchSearchProd();
     }
-  }, [currentPage, cardsOnPage, params, currentSearch, setSearchParams, searchParams]);
+  }, [
+    currentPage,
+    cardsOnPage,
+    params,
+    currentSearch,
+    setSearchParams,
+    searchParams,
+  ]);
 
   const paginate = (pageNumber: number) => {
     navigate(`?page=${pageNumber}`);
@@ -74,40 +83,47 @@ function MainPage() {
     navigate(`?page=${+(currentPage || 1) - 1}`);
   };
 
+  const dataProv = useMemo(() => ({ products, setProducts }), [products]);
+
   if (products) {
     return (
-      <div className="container">
-        <div className="header">
-          <h1 className="title">REACT COMPONENTS</h1>
-          <SearchBar page={currentPage} />
-          <div className="select_items">
-            <h1 className="title">SELECT ITEMS PRE PAGE</h1>
-            <select value={cardsOnPage} onChange={selectCardsOnPage}>
-              {options.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+      <DataContext.Provider value={dataProv}>
+        <div className="container">
+          <div className="header">
+            <h1 className="title">REACT COMPONENTS</h1>
+            <SearchBar page={currentPage} />
+            <div className="select_items">
+              <h1 className="title">SELECT ITEMS PER PAGE</h1>
+              <select value={cardsOnPage} onChange={selectCardsOnPage}>
+                {options.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="main">
+            <CatalogPage
+              page={currentPage}
+              search={currentSearch}
+            />
+            <DetailedCard card={currentCard} />
+          </div>
+          <div className="pagination_cont">
+            <Pagination
+              currentPage={+(currentPage || 1)}
+              totalProducts={totalProducts}
+              cardsPerPage={cardsOnPage}
+              paginate={paginate}
+              prev={handlePrev}
+              next={handleNext}
+            />
           </div>
         </div>
-        <div className="main">
-          <CatalogPage products={products} page={currentPage} search={currentSearch} />
-          <DetailedCard card={currentCard} />
-        </div>
-        <div className="pagination_cont">
-          <Pagination
-            currentPage={+(currentPage || 1)}
-            totalProducts={totalProducts}
-            cardsPerPage={cardsOnPage}
-            paginate={paginate}
-            prev={handlePrev}
-            next={handleNext}
-          />
-        </div>
-      </div>
+      </DataContext.Provider>
     );
   }
 }
 
-export default MainPage;
+export default MainPage ;

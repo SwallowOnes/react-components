@@ -38,6 +38,11 @@ interface ISearchBarState {
   error: boolean;
 }
 
+interface IData {
+  products: IProduct[] | undefined;
+  setProducts: (data: IProduct[]) => void;
+}
+
 export type {
   IFetchBody,
   IFilters,
@@ -46,4 +51,5 @@ export type {
   IItems,
   ISearchBarProps,
   ISearchBarState,
+  IData
 };

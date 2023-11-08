@@ -1,10 +1,20 @@
+import { useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import IProduct from '../../../types/IProduct';
 import '../../index.css';
 
-function CatalogPage(props: { products: IProduct[]; page: string | null; search: string | null }) {
-  const { products, page, search } = props;
+
+import DataContext from '../../../utils/DataContext';
+
+function CatalogPage(props: {
+  page: string | null;
+  search: string | null;
+}) {
+  const {  page, search } = props;
   const [, setSearchParams] = useSearchParams();
+  const  dataProv = useContext(DataContext);
+  const  products  = dataProv?.products
+
 
   if (!page) {
     return '';
@@ -12,11 +22,11 @@ function CatalogPage(props: { products: IProduct[]; page: string | null; search:
 
   const checkSearch = (gameTitle: string) => {
     if (search) {
-      setSearchParams({ page, search, card: gameTitle })
+      setSearchParams({ page, search, card: gameTitle });
     } else {
-      setSearchParams({ page, card: gameTitle })
+      setSearchParams({ page, card: gameTitle });
     }
-}
+  };
 
   if (products) {
     return (
