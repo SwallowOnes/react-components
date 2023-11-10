@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import '../../index.css';
 import { useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+
+import styles from '../index.module.css'
 
 function SearchBar(props: { page: string | null }) {
   const { page } = props;
@@ -25,12 +26,12 @@ function SearchBar(props: { page: string | null }) {
   };
 
   if (errorHandler) {
-    throw new Error('kek');
+    throw new Error('Error!');
   }
   return (
-    <div className="search-bar">
+    <div className={styles.search_bar}>
       <input
-        className="search-input"
+        className={styles.search_input}
         type="text"
         placeholder="Search"
         value={searchText}
@@ -38,14 +39,14 @@ function SearchBar(props: { page: string | null }) {
       />
       <button
         type="button"
-        className="search-button"
+        className={styles.search_button}
         onClick={onSearchButtonClick}
       >
         Search
       </button>
       <button
         type="button"
-        className="search-button"
+        className={styles.search_button}
         onClick={() => {
           setErrorHandler(true);
         }}
@@ -55,4 +56,5 @@ function SearchBar(props: { page: string | null }) {
     </div>
   );
 }
+
 export default SearchBar;

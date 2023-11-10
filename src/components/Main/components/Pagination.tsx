@@ -1,4 +1,4 @@
-import '../../index.css';
+import styles from '../index.module.css'
 
 function Pagination(props: {
   currentPage: number;
@@ -16,10 +16,10 @@ function Pagination(props: {
     pageNumber.push(i);
   }
   return (
-    <div className="pagination">
+    <div className={styles.pagination}>
       <button
         type="button"
-        className="page-link"
+        className={styles.page_link}
         disabled={currentPage <= 1}
         onClick={prev}
       >
@@ -31,7 +31,7 @@ function Pagination(props: {
           onClick={() => {
             paginate(page);
           }}
-          className={currentPage === page ? 'page-active' : 'page-link'}
+          className={styles.page_active}
           key={page}
         >
           {page}
@@ -41,7 +41,7 @@ function Pagination(props: {
       <button
         type="button"
         disabled={currentPage === pageNumber.length}
-        className="page-link"
+        className={styles.page_link}
         onClick={next}
       >
         NEXT

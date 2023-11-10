@@ -40,7 +40,10 @@ interface ISearchBarState {
 
 interface IData {
   products: IProduct[] | undefined;
-  setProducts: (data: IProduct[]) => void;
+  setProducts: (products: IProduct[]) => void;
+  currentSearch: string | null;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void
 }
 
 export type {
@@ -51,5 +54,5 @@ export type {
   IItems,
   ISearchBarProps,
   ISearchBarState,
-  IData
+  IData,
 };

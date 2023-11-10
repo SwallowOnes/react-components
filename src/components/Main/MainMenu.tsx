@@ -7,6 +7,8 @@ import IProduct from '../../types/IProduct';
 import Pagination from './components/Pagination';
 import DetailedCard from './components/DetailedCard';
 
+import styles from './index.module.css'
+
 import DataContext from '../../utils/DataContext';
 
 const cardsPerPageDefault = 10;
@@ -16,6 +18,7 @@ function MainPage() {
   const [products, setProducts] = useState<IProduct[]>();
   const [totalProducts, setTotalProducts] = useState(Number);
   const [cardsOnPage, setCardsOnPage] = useState(cardsPerPageDefault);
+  const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate();
   const params = useLocation();
 
@@ -48,6 +51,7 @@ function MainPage() {
         setTotalProducts(catalog.totalProducts);
       };
       fetchCatalog();
+      setIsLoading(false);
     } else {
       const fetchSearchProd = async () => {
         const fetchData = await fetchSearch(currentSearch || '');
@@ -55,6 +59,7 @@ function MainPage() {
         setTotalProducts(1);
       };
       fetchSearchProd();
+      setIsLoading(false);
     }
   }, [
     currentPage,
@@ -83,17 +88,26 @@ function MainPage() {
     navigate(`?page=${+(currentPage || 1) - 1}`);
   };
 
-  const dataProv = useMemo(() => ({ products, setProducts }), [products]);
+  const dataProv = useMemo(
+    () => ({
+      products,
+      setProducts,
+      currentSearch,
+      isLoading,
+      setIsLoading
+    }),
+    [products, currentSearch, isLoading],
+  );
 
   if (products) {
     return (
       <DataContext.Provider value={dataProv}>
-        <div className="container">
-          <div className="header">
-            <h1 className="title">REACT COMPONENTS</h1>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>REACT COMPONENTS</h1>
             <SearchBar page={currentPage} />
-            <div className="select_items">
-              <h1 className="title">SELECT ITEMS PER PAGE</h1>
+            <div className={styles.select_items}>
+              <h1 className={styles.title}>SELECT ITEMS PER PAGE</h1>
               <select value={cardsOnPage} onChange={selectCardsOnPage}>
                 {options.map((option) => (
                   <option key={option} value={option}>
@@ -103,14 +117,11 @@ function MainPage() {
               </select>
             </div>
           </div>
-          <div className="main">
-            <CatalogPage
-              page={currentPage}
-              search={currentSearch}
-            />
+          <div className={styles.main}>
+            <CatalogPage page={currentPage} />
             <DetailedCard card={currentCard} />
           </div>
-          <div className="pagination_cont">
+          <div className={styles.pagination_cont}>
             <Pagination
               currentPage={+(currentPage || 1)}
               totalProducts={totalProducts}
@@ -126,4 +137,4 @@ function MainPage() {
   }
 }
 
-export default MainPage ;
+export default MainPage;

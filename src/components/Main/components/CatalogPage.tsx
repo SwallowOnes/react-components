@@ -1,20 +1,17 @@
 import { useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import IProduct from '../../../types/IProduct';
-import '../../index.css';
-
+import styles from '../index.module.css'
 
 import DataContext from '../../../utils/DataContext';
 
-function CatalogPage(props: {
-  page: string | null;
-  search: string | null;
-}) {
-  const {  page, search } = props;
+function CatalogPage(props: { page: string | null }) {
+  const { page } = props;
   const [, setSearchParams] = useSearchParams();
-  const  dataProv = useContext(DataContext);
-  const  products  = dataProv?.products
-
+  const dataProv = useContext(DataContext);
+  const products = dataProv?.products;
+  const search = dataProv?.currentSearch;
+  const isLoading = dataProv?.isLoading;
 
   if (!page) {
     return '';
@@ -28,19 +25,23 @@ function CatalogPage(props: {
     }
   };
 
+  if (isLoading) {
+    return <div>Загрузка…</div>;
+  }
+
   if (products) {
     return (
-      <div className="catalog">
+      <div className={styles.catalog}>
         {products.map((product: IProduct) => (
           <div
             role="button"
-            className="CardClicker"
+            className={styles.CardClicker}
             onClick={() => checkSearch(product.gameTitle)}
             aria-hidden="true"
             key={product.gameTitle}
           >
-            <div className="card" key={product.gameTitle}>
-              <p className="game-title">{product.gameTitle}</p>
+            <div className={styles.card} key={product.gameTitle}>
+              <p className={styles.game_title}>{product.gameTitle}</p>
               <img src={product.headerImg} alt={product.gameTitle} />
             </div>
           </div>

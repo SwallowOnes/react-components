@@ -1,6 +1,6 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
-import { IData } from "../types/interfaces";
+import { IData } from '../types/interfaces';
 
 const DataContext = createContext<IData | null>(null);
 

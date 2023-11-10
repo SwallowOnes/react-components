@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchProduct } from '../../../API/fetch';
 import IProduct from '../../../types/IProduct';
-import '../../index.css';
+import styles from '../index.module.css'
 
 function DetailedCard(props: { card: string | null }) {
   const { card } = props;
@@ -25,13 +25,13 @@ function DetailedCard(props: { card: string | null }) {
   }
   if (productData) {
     return (
-      <div className="card" key={productData.gameTitle}>
-        <p className="game-title">{productData.gameTitle}</p>
+      <div className={styles.card} key={productData.gameTitle}>
+        <p className={styles.game_title}>{productData.gameTitle}</p>
         <img src={productData.headerImg} alt={productData.gameTitle} />
-        <p className="card-text">{productData.descriptionShort}</p>
-        <p className="card-text">{`${productData.category}`}</p>
-        <p className="card-text">{`${productData.devCompany}`}</p>
-        <p className="card-text">{`${productData.price}$`}</p>
+        <p className={styles.card_text}>{productData.descriptionShort}</p>
+        <p className={styles.card_text}>{`${productData.category}`}</p>
+        <p className={styles.card_text}>{`${productData.devCompany}`}</p>
+        <p className={styles.card_text}>{`${productData.price}$`}</p>
       </div>
     );
   }
